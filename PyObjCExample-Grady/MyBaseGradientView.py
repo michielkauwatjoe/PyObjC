@@ -1,6 +1,5 @@
 from Cocoa import *
 
-
 class MyBaseGradientView (NSView):
     myGradient = objc.ivar()
     myStartColor = objc.ivar()
@@ -11,7 +10,6 @@ class MyBaseGradientView (NSView):
     myIsRadial = objc.ivar.bool()
     myOffsetPt = objc.ivar.NSPoint()
 
-
     def resetGradient(self):
         if self.forceColorChange and self.myGradient is not None:
             self.myGradient = None
@@ -20,7 +18,6 @@ class MyBaseGradientView (NSView):
             self.myGradient = NSGradient.alloc().initWithStartingColor_endingColor_(
                     self.myStartColor, self.myEndColor)
             self.forceColorChange = False
-
 
     def setStartColor_(self, startColor):
         self.myStartColor = startColor

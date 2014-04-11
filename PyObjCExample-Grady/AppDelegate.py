@@ -1,8 +1,10 @@
 from Cocoa import *
-
 from MyWindowController import *
 
 class AppDelegate (NSObject):
+    u"""
+    Delegate is the main logic component, which sets the controllers.
+    """
     myWindowController = objc.ivar()
 
     @objc.IBAction
@@ -14,6 +16,9 @@ class AppDelegate (NSObject):
 
 
     def applicationDidFinishLaunching_(self, notification):
+        u"""
+        Open a new document after application launch.
+        """
         self.newDocument_(self)
 
     def validateMenuItem_(self, theMenuItem):

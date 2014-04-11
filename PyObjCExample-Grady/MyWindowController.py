@@ -12,7 +12,6 @@ class MyWindowController (NSWindowController):
     radialCheck = objc.IBOutlet()
     radialExplainText = objc.IBOutlet()
 
-
     def initWithPath_(self, newPath):
         return super(MyWindowController, self).initWithWindowNibName_("TestWindow")
 
