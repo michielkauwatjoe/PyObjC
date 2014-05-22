@@ -1,6 +1,6 @@
 from Cocoa import *
 
-class MyBaseGradientView (NSView):
+class MyBaseGradientView(NSView):
     myGradient = objc.ivar()
     myStartColor = objc.ivar()
     myEndColor = objc.ivar()
