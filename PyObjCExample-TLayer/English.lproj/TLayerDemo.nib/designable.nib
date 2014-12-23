@@ -47,6 +47,7 @@
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMinSize">{200, 546}</string>
 				<object class="NSView" key="NSWindowView" id="110287335">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -250,7 +251,7 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1600, 1002}}</string>
 				<string key="NSMinSize">{200, 568}</string>
-				<string key="NSMaxSize">{3.402820018375656e+38, 3.402820018375656e+38}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 		</array>
@@ -346,11 +347,11 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="110287335"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="232501843"/>
 							<reference ref="707401348"/>
 							<reference ref="37232942"/>
 							<reference ref="610106655"/>
 							<reference ref="410374700"/>
+							<reference ref="232501843"/>
 						</array>
 						<reference key="parent" ref="375199017"/>
 					</object>
@@ -431,8 +432,9 @@
 				<string key="185.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="188.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="189.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.IBPersistedLastKnownCanvasPosition">{448, 366.5}</string>
+				<string key="5.IBPersistedLastKnownCanvasPosition">{720, 383.5}</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<reference key="6.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>

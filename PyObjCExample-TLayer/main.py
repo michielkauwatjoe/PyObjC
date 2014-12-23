@@ -1,7 +1,7 @@
 from PyObjCTools import NibClassBuilder, AppHelper
 
-#NibClassBuilder.extractClasses("MainMenu")
-#NibClassBuilder.extractClasses("TLayerDemo")
+NibClassBuilder.extractClasses("MainMenu")
+NibClassBuilder.extractClasses("TLayerDemo")
 
 import AppDelegate
 import Circle

@@ -7,7 +7,8 @@ import math
 _drawingCommand = kCommandStrokedAndFilledRects
 _pdfDocument = None
 
-class MyView (NibClassBuilder.AutoBaseClass):
+class MyView(NibClassBuilder.AutoBaseClass):
+
     def drawRect_(self, rect):
         context = NSGraphicsContext.currentContext().graphicsPort()
         AppDrawing.myDispatchDrawing(context, _drawingCommand)
@@ -26,9 +27,11 @@ class MyView (NibClassBuilder.AutoBaseClass):
             self.currentMenuItem.setState_(NSOnState)
 
     def currentPrintableCommand(self):
-        # The best representation for printing or exporting
-        # when the current command caches using a bitmap context
-        # or a layer is to not do any caching.
+        u"""
+        The best representation for printing or exporting
+        when the current command caches using a bitmap context
+        or a layer is to not do any caching.
+        """
         if _drawingCommand == kCommandDoCGLayer:
             return kCommandDoUncachedDrawing
 

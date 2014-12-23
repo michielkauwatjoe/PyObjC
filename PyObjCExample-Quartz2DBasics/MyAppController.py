@@ -14,7 +14,8 @@ def getURLToExport(suffix):
 
     return None
 
-class MyAppController (NibClassBuilder.AutoBaseClass):
+class MyAppController(NibClassBuilder.AutoBaseClass):
+
     def print_(self, sender):
         self.theView.print_(sender)
 
