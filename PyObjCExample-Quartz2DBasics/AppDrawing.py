@@ -71,6 +71,9 @@ def doDrawImageFile(context, doclip):
 
 
 def myDispatchDrawing(context, drawingType):
+    u"""
+    Determines what to draw.
+    """
     if drawingType == kCommandStrokedAndFilledRects:
         drawStrokedAndFilledRects(context)
 
