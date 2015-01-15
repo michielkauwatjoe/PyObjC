@@ -5,9 +5,10 @@ from PyObjCTools import AppHelper
 from AppKit import *
 from Foundation import *
 
-
 class DraggableItemView(NSView):
-    """."""
+    u"""
+    View listens to mouse, drags box around window.
+    """
     _locationDefault = NSMakePoint(0.0, 0.0)
     _itemColorDefault = NSColor.redColor()
     _backgroundColorDefault = NSColor.whiteColor()
