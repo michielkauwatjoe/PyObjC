@@ -41,38 +41,40 @@ class PressureWinController(NSObject):
     u"""
     """
 
-    txtEventType = IBOutlet()
-    txtMouseX = IBOutlet()
-    txtMouseY = IBOutlet()
-    txtPressure = IBOutlet()
-    clrForeColor = IBOutlet()
-    wtvTabletDraw = IBOutlet()
-    mnuLineSize = IBOutlet()
-    mnuOpacity = IBOutlet()
-    mnuCaptureMouseMoves = IBOutlet()
-    mnuUpdateStatsDuringDrag = IBOutlet()
+    txtEventType = objc.IBOutlet()
+    txtMouseX = objc.IBOutlet()
+    txtMouseY = objc.IBOutlet()
+    txtPressure = objc.IBOutlet()
+    clrForeColor = objc.IBOutlet()
+    wtvTabletDraw = objc.IBOutlet()
+    mnuLineSize = objc.IBOutlet()
+    mnuOpacity = objc.IBOutlet()
+    mnuCaptureMouseMoves = objc.IBOutlet()
+    mnuUpdateStatsDuringDrag = objc.IBOutlet()
+
+    def init(self):
+        self = super(NSObject, self).init()
 
     def awakeFromNib(self):
         pass
 
-
-    @IBAction
+    @objc.IBAction
     def opacityMenuAction_(self, sender):
         pass
 
-    @IBAction
+    @objc.IBAction
     def lineSizeMenuAction_(self, sender):
         pass
 
-    @IBAction
+    @objc.IBAction
     def captureMouseMovesAction_(self, sender):
         pass
 
-    @IBAction
+    @objc.IBAction
     def updateStatsDuringDragAction_(self, sender):
         pass
 
-    @IBAction
+    @objc.IBAction
     def openColorPanel_(self, sender):
         pass
 

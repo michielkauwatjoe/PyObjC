@@ -1,6 +1,7 @@
 from MyBaseGradientView import *
 
 class MyBezierGradientView (MyBaseGradientView):
+
     def init(self):
         self = super(MyBaseGradientView, self).init()
         if self is None:
