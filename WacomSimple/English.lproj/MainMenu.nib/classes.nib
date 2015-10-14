@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                captureMouseMovesAction = id; 
+                changeColor = id; 
+                lineSizeMenuAction = id; 
+                opacityMenuAction = id; 
+                openColorPanel = id; 
+                updateStatsDuringDragAction = id; 
+            }; 
+            CLASS = PressureWinController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                clrForeColor = id; 
+                mnuCaptureMouseMoves = id; 
+                mnuLineSize = id; 
+                mnuOpacity = id; 
+                mnuUpdateStatsDuringDrag = id; 
+                txtEventType = id; 
+                txtMouseX = id; 
+                txtMouseY = id; 
+                txtPressure = id; 
+                wtvTabletDraw = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = WTView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

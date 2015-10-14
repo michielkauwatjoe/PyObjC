@@ -2,7 +2,6 @@ from AppKit import *
 
 class PressureWinController(NSObject):
 
-
     def awakeFromNib(self):
         pass
 
