@@ -55,8 +55,43 @@ class PressureWinController(NSObject):
     def init(self):
         self = super(NSObject, self).init()
 
+        if self is None:
+            return None
+
+        self.defaultCenter = NSNotificationCenter()
+        #self.defaultCenter.addObserver_selector_name_object_(self, selector, WTViewUpdatedNotification, self.wtvTabetDraw)
+        #[[NSNotificationCenter defaultCenter] addObserver:self
+        #       selector:@selector(wtvUpdatedStats:)
+        #       name:WTViewUpdatedNotification
+        #       object:wtvTabletDraw];
+
+
     def awakeFromNib(self):
-        pass
+        #clrForeColor
+        #self.wtvTabletDraw.setForeColor_(color)
+
+        # Set check marks of Pressure Menu Items.
+        if(self.wtvTabletDraw.mAdjustOpacity is True):
+           self.mnuOpacity.setState_(NSOnStates)
+        else:
+           self.mnuOpacity.setState_(NSOffState)
+
+        if(self.wtvTabletDraw.mAdjustSize is True):
+           self.mnuOpacity.setState_(NSOnState)
+        else:
+            self.mnuLineSize.setState_(NSOffState)
+        # Set check marks for Events menu
+        if(self.wtvTabletDraw.mCaptureMouseMoves is True):
+           self.mnuCaptureMouseMoves.setState_(NSOnState)
+        else:
+           self.mnuCaptureMouseMoves.setState_(NSOffState)
+
+        if(self.wtvTabletDraw.mUpdateStatsDuringDrag is True):
+           self.mnuUpdateStatsDuringDrag.setState_(NSOnState)
+        else:
+           self.mnuUpdateStatsDuringDrag.setState_eNSOffState)
+
+
 
     @objc.IBAction
     def opacityMenuAction_(self, sender):
