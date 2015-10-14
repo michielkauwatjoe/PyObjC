@@ -1,5 +1,8 @@
 from AppKit import *
 
+WTViewUpdatedNotification = "WTViewStatsUpdatedNotification"
+maxBrushSize = 50.0
+
 class WTView(NSView):
     u"""
     """
@@ -16,6 +19,19 @@ class WTView(NSView):
     mCaptureMouseMoves = None
     mUpdateStatsDuringDrag = None
 
+    def initWithFrame_(cls, frame):
+        print 'WTView init with frame'
+        self = super(WTView, cls).initWithFrame_(frame)
+        print self
+
+        if not self is None:
+            # Initialization code here.
+            mAdjustOpacity = True
+            mAdjustSize = False
+            mCaptureMouseMoves = True
+            mUpdateStatsDuringDrag = True
+        return self
+
     def setForeColor_(self, newColor):
         pass
 
@@ -31,10 +47,16 @@ class WTView(NSView):
     def setUpdateStatsDuringDrag_(self, value):
         pass
 
-    def handleMouseEvent(self, theEvent):
+    def handleMouseEvent_(self, theEvent):
         pass
 
     def drawCurrentDataFromEvent_(self, theEvent):
+        pass
+
+    def acceptsFirstResponder(self):
+        return True
+
+    def drawRect_(self, rect):
         pass
 
 class PressureWinController(NSObject):
@@ -52,21 +74,27 @@ class PressureWinController(NSObject):
     mnuCaptureMouseMoves = objc.IBOutlet()
     mnuUpdateStatsDuringDrag = objc.IBOutlet()
 
-    def init(self):
-        self = super(NSObject, self).init()
+    def init(cls):
+        print 'init PressureWinController'
+        self = super(PressureWinController, cls).init()
+        print self
 
         if self is None:
             return None
 
-        self.defaultCenter = NSNotificationCenter()
-        #self.defaultCenter.addObserver_selector_name_object_(self, selector, WTViewUpdatedNotification, self.wtvTabetDraw)
+        NSNotificationCenter.defaultCenter().addObserver_selector_name_object_(self, "wtvUpdatedStats:", WTViewUpdatedNotification, self.wtvTabletDraw)
+
+        #.addObserver_selector_name_object_(self, "textDidChange:", NSTextStorageDidProcessEditingNotification, view.textStorage())
+        #self.nc.addObserver_selector_name_object_(self, selector, WTViewUpdatedNotification, self.wtvTabetDraw)
         #[[NSNotificationCenter defaultCenter] addObserver:self
         #       selector:@selector(wtvUpdatedStats:)
         #       name:WTViewUpdatedNotification
         #       object:wtvTabletDraw];
+        return self
 
 
     def awakeFromNib(self):
+        print 'awake'
         #clrForeColor
         #self.wtvTabletDraw.setForeColor_(color)
 
@@ -89,9 +117,7 @@ class PressureWinController(NSObject):
         if(self.wtvTabletDraw.mUpdateStatsDuringDrag is True):
            self.mnuUpdateStatsDuringDrag.setState_(NSOnState)
         else:
-           self.mnuUpdateStatsDuringDrag.setState_eNSOffState)
-
-
+           self.mnuUpdateStatsDuringDrag.setState_(NSOffState)
 
     @objc.IBAction
     def opacityMenuAction_(self, sender):
