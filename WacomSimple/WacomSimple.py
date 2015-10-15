@@ -20,9 +20,8 @@ class WTView(NSView):
     mUpdateStatsDuringDrag = objc.ivar.bool()
 
     def initWithFrame_(cls, frame):
-        print 'WTView init with frame'
         self = super(WTView, cls).initWithFrame_(frame)
-        print self
+        print self, 'init with frame'
 
         if not self is None:
             # Initialization code here.
@@ -32,6 +31,27 @@ class WTView(NSView):
             mUpdateStatsDuringDrag = True
 
         return self
+
+    def mouseMoved_(self, theEvent):
+        self.handleMouseEvent_(theEvent)
+
+    def mouseUp_(self, theEvent):
+        self.handleMouseEvent_(theEvent)
+
+    def handleMouseEvent_(self, theEvent):
+        self.mEventType = theEvent.type()
+        loc = theEvent.locationInWindow()
+        self.mMouseX = loc.x
+        self.mMouseY = loc.y
+        self.mSubX = 0.0
+        self.mSubY = 0.0
+
+        if not self.mEventType == NSMouseMoved:
+            self.mPressure = theEvent.pressure()
+        else:
+            self.mPressure = 0.0
+
+        NSNotificationCenter.defaultCenter().postNotificationName_object_(WTViewUpdatedNotification, self)
 
     def setForeColor_(self, newColor):
         pass
@@ -46,9 +66,6 @@ class WTView(NSView):
         pass
 
     def setUpdateStatsDuringDrag_(self, value):
-        pass
-
-    def handleMouseEvent_(self, theEvent):
         pass
 
     def drawCurrentDataFromEvent_(self, theEvent):
@@ -78,28 +95,19 @@ class PressureWinController(NSObject):
     def init(cls):
         u"""
         """
-        print 'init PressureWinController'
         self = super(PressureWinController, cls).init()
-        print self
+        print self, 'init PressureWinController'
 
         if self is None:
             return None
 
         NSNotificationCenter.defaultCenter().addObserver_selector_name_object_(self, "wtvUpdatedStats:", WTViewUpdatedNotification, self.wtvTabletDraw)
-
-        #.addObserver_selector_name_object_(self, "textDidChange:", NSTextStorageDidProcessEditingNotification, view.textStorage())
-        #self.nc.addObserver_selector_name_object_(self, selector, WTViewUpdatedNotification, self.wtvTabetDraw)
-        #[[NSNotificationCenter defaultCenter] addObserver:self
-        #       selector:@selector(wtvUpdatedStats:)
-        #       name:WTViewUpdatedNotification
-        #       object:wtvTabletDraw];
         return self
 
 
     def awakeFromNib(self):
-        print 'awake'
-        #clrForeColor
-        #self.wtvTabletDraw.setForeColor_(color)
+        print 'awakeFromNib'
+        self.wtvTabletDraw.setForeColor_(NSColor.orangeColor())
 
         # Set check marks of Pressure Menu Items.
         if(self.wtvTabletDraw.mAdjustOpacity is True):
