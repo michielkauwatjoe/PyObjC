@@ -7,17 +7,17 @@ class WTView(NSView):
     u"""
     """
 
-    mEventType = None
-    mMouseX = None
-    mMouseY = None
-    mSubX = None
-    mSubY = None
-    mPressure = None
-    mForeColor = None
-    mAdjustOpacity = None
-    mAdjustSize = None
-    mCaptureMouseMoves = None
-    mUpdateStatsDuringDrag = None
+    mEventType = objc.ivar.int()
+    mMouseX = objc.ivar.float()
+    mMouseY = objc.ivar.float()
+    mSubX = objc.ivar.float()
+    mSubY = objc.ivar.float()
+    mPressure = objc.ivar.float()
+    mForeColor = objc.ivar()
+    mAdjustOpacity = objc.ivar.bool()
+    mAdjustSize = objc.ivar.bool()
+    mCaptureMouseMoves = objc.ivar.bool()
+    mUpdateStatsDuringDrag = objc.ivar.bool()
 
     def initWithFrame_(cls, frame):
         print 'WTView init with frame'
@@ -30,6 +30,7 @@ class WTView(NSView):
             mAdjustSize = False
             mCaptureMouseMoves = True
             mUpdateStatsDuringDrag = True
+
         return self
 
     def setForeColor_(self, newColor):
@@ -75,6 +76,8 @@ class PressureWinController(NSObject):
     mnuUpdateStatsDuringDrag = objc.IBOutlet()
 
     def init(cls):
+        u"""
+        """
         print 'init PressureWinController'
         self = super(PressureWinController, cls).init()
         print self
