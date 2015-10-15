@@ -5,6 +5,7 @@ maxBrushSize = 50.0
 
 class WTView(NSView):
     u"""
+    View class for Wacom Simple example.
     """
 
     mEventType = objc.ivar.int()
@@ -58,11 +59,11 @@ class WTView(NSView):
         """
         keepOn = True
 
-        if (self.mUpdateStatsDuringDrag):
+        if self.mUpdateStatsDuringDrag is True:
             self.drawCurrentDataFromEvent_(theEvent)
             self.handleMouseEvent_(theEvent)
         else:
-            while(keepOn):
+            while keepOn:
                 theEvent = self.window().nextEventMatchingMask_(NSLeftMouseUpMask | NSLeftMouseDraggedMask)
 
                 t = theEvent.type()
@@ -103,20 +104,20 @@ class WTView(NSView):
         NSNotificationCenter.defaultCenter().postNotificationName_object_(WTViewUpdatedNotification, self)
 
     def setForeColor_(self, newColor):
-        pass
+        self.mForeColor = newColor
 
     def setAdjustOpacity_(self, adjust):
-        pass
+        self.mAdjustOpacity = adjust
 
     def setAdjustSize_(self, adjust):
-        pass
+        self.mAdjustSize = adjust
 
     def setCaptureMouseMoves_(self, value):
         self.mCaptureMouseMoves = value
         self.window().setAcceptsMouseMovedEvents_(self.mCaptureMouseMoves)
 
     def setUpdateStatsDuringDrag_(self, value):
-        pass
+        self.mUpdateStatsDuringDrag = value
 
     def drawCurrentDataFromEvent_(self, theEvent):
         u"""
@@ -164,10 +165,12 @@ class WTView(NSView):
         return True
 
     def drawRect_(self, rect):
-        pass
+        NSColor.whiteColor().set()
+        NSRectFill(self.bounds())
 
 class PressureWinController(NSObject):
     u"""
+    Controller class for Wacom Simple example.
     """
 
     txtEventType = objc.IBOutlet()
@@ -191,7 +194,6 @@ class PressureWinController(NSObject):
 
         NSNotificationCenter.defaultCenter().addObserver_selector_name_object_(self, "wtvUpdatedStats:", WTViewUpdatedNotification, self.wtvTabletDraw)
         return self
-
 
     def awakeFromNib(self):
         self.wtvTabletDraw.setForeColor_(NSColor.orangeColor())
@@ -219,26 +221,59 @@ class PressureWinController(NSObject):
 
     @objc.IBAction
     def opacityMenuAction_(self, sender):
-        pass
+        if sender.state() == NSOnState:
+            sender.setState_(NSOffState)
+            self.wtvTabletDraw.setAdjustOpacity_(False)
+        else:
+            sender.setState_(NSOnState)
+            self.wtvTabletDraw.setAdjustOpacity_(True)
 
     @objc.IBAction
     def lineSizeMenuAction_(self, sender):
-        pass
+        if sender.state() == NSOnState:
+            sender.setState_(NSOffState)
+            self.wtvTabletDraw.setAdjustSize_(False)
+        else:
+            sender.setState_(NSOnState)
+            self.wtvTabletDraw.setAdjustSize_(True)
 
     @objc.IBAction
     def captureMouseMovesAction_(self, sender):
-        pass
+        if sender.state() == NSOnState:
+            sender.setState_(NSOffState)
+            self.wtvTabletDraw.setCaptureMouseMoves_(False)
+        else:
+            sender.setState_(NSOnState)
+            self.wtvTabletDraw.setCaptureMouseMoves_(True)
 
     @objc.IBAction
     def updateStatsDuringDragAction_(self, sender):
-        pass
+        if sender.state() == NSOnState:
+            sender.setState_(NSOffState)
+            self.wtvTabletDraw.setUpdateStatsDuringDrag_(False)
+        else:
+            sender.setState_(NSOnState)
+            self.wtvTabletDraw.setUpdateStatsDuringDrag_(True)
 
     @objc.IBAction
     def openColorPanel_(self, sender):
-        pass
+        sender.activate(False)
 
     def changeColor_(self, sender):
-        pass
+        self.wtvTabletDraw.setForeColor_(sender.color())
 
     def wtvUpdatedStats_(self, theNotification):
-        pass
+        t = self.wtvTabletDraw.mEventType
+
+        if t == NSLeftMouseDown or t == NSRightMouseDown:
+            self.txtEventType.setStringValue_('Mouse Down')
+        elif t == NSLeftMouseUp or t == NSRightMouseUp:
+            self.txtEventType.setStringValue_('Mouse Up')
+        elif t == NSLeftMouseDragged or t == NSRightMouseDragged:
+            self.txtEventType.setStringValue_('Mouse Drag')
+        elif t == NSMouseMoved:
+            self.txtEventType.setStringValue_('Mouse Move')
+
+        self.txtMouseX.setFloatValue_(self.wtvTabletDraw.mMouseX)
+        self.txtMouseY.setFloatValue_(self.wtvTabletDraw.mMouseY)
+        self.txtPressure.setFloatValue_(self.wtvTabletDraw.mPressure)
