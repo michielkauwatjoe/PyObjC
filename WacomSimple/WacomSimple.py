@@ -21,14 +21,14 @@ class WTView(NSView):
 
     def initWithFrame_(cls, frame):
         self = super(WTView, cls).initWithFrame_(frame)
-        print self, 'init with frame'
 
         if not self is None:
             # Initialization code here.
-            mAdjustOpacity = True
-            mAdjustSize = False
-            mCaptureMouseMoves = True
-            mUpdateStatsDuringDrag = True
+            self.mAdjustOpacity = True
+            self.mAdjustSize = False
+            self.mCaptureMouseMoves = True
+            self.mUpdateStatsDuringDrag = True
+            self.mForeColor = NSColor.orangeColor()
 
         return self
 
@@ -82,6 +82,12 @@ class WTView(NSView):
         self.handleMouseEvent_(theEvent)
 
     def handleMouseEvent_(self, theEvent):
+        u"""
+        All of the Mouse Events are funneled through this function so that we
+        do not have to duplicate this code. If you do something like this,
+        you must be careful because certain fields are only valid for particular
+        events. For example, [NSEvent pressure] is not valid for Mouse Moves!
+        """
         self.mEventType = theEvent.type()
         loc = theEvent.locationInWindow()
         self.mMouseX = loc.x
@@ -113,7 +119,46 @@ class WTView(NSView):
         pass
 
     def drawCurrentDataFromEvent_(self, theEvent):
-        pass
+        u"""
+        This is where the pretty colors are drawn to the screen!
+        A 'Real' app would probably keep track of this information so that the
+        -(void) drawRect; function can properly re-draw it.
+        """
+        path = NSBezierPath.alloc().init()
+        currentLoc = self.convertPoint_fromView_(theEvent.locationInWindow(), None)
+        pressure = theEvent.pressure()
+
+        if self.mAdjustSize is True:
+            brushSize = pressure * maxBrushSize
+        else:
+            brushSize = 0.5 * maxBrushSize
+
+        if self.mAdjustOpacity is True:
+            opacity = pressure
+        else:
+            opacity = 1.0
+
+        # Don't forget to lockFocus when drawing to view without
+        # being inside -(void) drawRect;
+        self.lockFocus()
+        self.mForeColor.colorWithAlphaComponent_(opacity).set()
+        path.setLineWidth_(brushSize)
+        path.setLineCapStyle_(NSRoundLineCapStyle)
+        path.moveToPoint_(self.mLastLoc)
+        path.lineToPoint_(currentLoc)
+        path.stroke()
+        self.unlockFocus()
+
+        '''
+        If we are not updating the stats during a drag, then the
+        window will not recieve an update message during the drag.
+        So I explicitly force the window to flush it's contents after
+        drawing each line segment. A 'Real' app would probably want to
+        be smarter about this.
+        '''
+
+        self.window().flushWindow()
+        self.mLastLoc = currentLoc
 
     def acceptsFirstResponder(self):
         return True
@@ -140,7 +185,6 @@ class PressureWinController(NSObject):
         u"""
         """
         self = super(PressureWinController, cls).init()
-        print self, 'init PressureWinController'
 
         if self is None:
             return None
@@ -154,7 +198,7 @@ class PressureWinController(NSObject):
 
         # Set check marks of Pressure Menu Items.
         if(self.wtvTabletDraw.mAdjustOpacity is True):
-           self.mnuOpacity.setState_(NSOnStates)
+           self.mnuOpacity.setState_(NSOnState)
         else:
            self.mnuOpacity.setState_(NSOffState)
 
