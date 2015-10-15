@@ -32,6 +32,49 @@ class WTView(NSView):
 
         return self
 
+    def awakeFromNib(self):
+        u"""
+        Must inform the window that we want mouse moves after all object are
+        created and linked.
+
+        Let our internal routine make the API call so that everything stays in
+        synch. Change the calue in the init routine to change the default
+        behavior.
+        """
+        self.setCaptureMouseMoves_(self.mCaptureMouseMoves)
+
+    def mouseDown_(self, theEvent):
+        self.handleMouseEvent_(theEvent)
+
+        # Save the loc the mouse down occurred at. This will be used by the
+        # Drawing code during a Drag event to follow.
+        self.mLastLoc = self.convertPoint_fromView_(theEvent.locationInWindow(), None)
+
+    def mouseDragged_(self, theEvent):
+        u"""
+        Updating the text display of the stats can take up a lot of time.  This
+        can lead to less smooth curves being drawn. Toggle the Update Stats
+        During Drag menu option to see the difference.
+        """
+        keepOn = True
+
+        if (self.mUpdateStatsDuringDrag):
+            self.drawCurrentDataFromEvent_(theEvent)
+            self.handleMouseEvent_(theEvent)
+        else:
+            while(keepOn):
+                theEvent = self.window().nextEventMatchingMask_(NSLeftMouseUpMask | NSLeftMouseDraggedMask)
+
+                t = theEvent.type()
+                if t == NSLeftMouseDragged:
+                    self.drawCurrentDataFromEvent_(theEvent)
+                    break
+                elif t == NSLeftMouseUp:
+                    keepOn = False
+                    break
+                else:
+                    break
+
     def mouseMoved_(self, theEvent):
         self.handleMouseEvent_(theEvent)
 
@@ -62,8 +105,9 @@ class WTView(NSView):
     def setAdjustSize_(self, adjust):
         pass
 
-    def setCaptureMouseMove_(self, value):
-        pass
+    def setCaptureMouseMoves_(self, value):
+        self.mCaptureMouseMoves = value
+        self.window().setAcceptsMouseMovedEvents_(self.mCaptureMouseMoves)
 
     def setUpdateStatsDuringDrag_(self, value):
         pass
@@ -106,7 +150,6 @@ class PressureWinController(NSObject):
 
 
     def awakeFromNib(self):
-        print 'awakeFromNib'
         self.wtvTabletDraw.setForeColor_(NSColor.orangeColor())
 
         # Set check marks of Pressure Menu Items.
